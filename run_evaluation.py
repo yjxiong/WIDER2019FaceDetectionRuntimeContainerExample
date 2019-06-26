@@ -4,7 +4,7 @@ import sys
 import logging
 
 import numpy as np
-from eval_kit.client import upload_eval_output, get_image_iter
+from eval_kit.client import upload_eval_output, get_image_iter, get_job_id
 
 
 logging.basicConfig(level=logging.INFO)
@@ -20,9 +20,9 @@ from sample_detector import SampleMTCNNFaceDetector
 def evaluate_runtime(detector_class, image_iter, job_id):
     """
     Please DO NOT modify this part of code or the eval_kit
-    Modification of the evaluation toolkit could lead cancellation of your award.
+    Modification of the evaluation toolkit could result in cancellation of your award.
 
-    In this function we create the detector instance. And evaluate the wall time for running the WIDERFace test set.
+    In this function we create the detector instance. And evaluate the wall time for performing face detection.
     """
 
     # initialize the detector
@@ -68,9 +68,9 @@ def evaluate_runtime(detector_class, image_iter, job_id):
 
 
 if __name__ == '__main__':
-    job_id = "test"
+    job_id = get_job_id()
     wider_test_image_iter = get_image_iter(max_number=10)
-    evaluate_runtime(SampleMTCNNFaceDetector, wider_test_image_iter, "test")
+    evaluate_runtime(SampleMTCNNFaceDetector, wider_test_image_iter, job_id)
 
 
 

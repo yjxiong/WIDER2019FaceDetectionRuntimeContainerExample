@@ -58,6 +58,10 @@ def _upload_output_to_s3(data, filename, s3_bucket, s3_prefix):
     s3_client.upload_file(local_path, s3_bucket, s3_path)
 
 
+def get_job_id():
+    return os.environ['WIDER_EVAL_JOB_ID']
+
+
 def upload_eval_output(output_boxes, output_time, job_id):
     """
     This function uploads the testing output to S3 to trigger evaluation.
