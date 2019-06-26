@@ -69,7 +69,7 @@ def evaluate_runtime(detector_class, image_iter, job_id):
 
 if __name__ == '__main__':
     job_id = "test"
-    wider_test_image_iter = get_image_iter()
+    wider_test_image_iter = get_image_iter(max_number=10)
     evaluate_runtime(SampleMTCNNFaceDetector, wider_test_image_iter, "test")
 
 

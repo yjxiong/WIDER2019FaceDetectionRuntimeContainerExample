@@ -77,7 +77,7 @@ def upload_eval_output(output_boxes, output_time, job_id):
     _upload_output_to_s3(upload_data, filename, WORKSPACE_BUCKET, UPLOAD_PREFIX)
 
 
-def get_image_iter():
+def get_image_iter(max_number=None):
     """
     This function returns a iterator of input images for the detector
     Each iteration provides a tuple of
@@ -87,6 +87,9 @@ def get_image_iter():
     """
 
     image_list = _get_s3_image_list(WORKSPACE_BUCKET, IMAGE_LIST_PATH)
+
+    if max_number is not None:
+        image_list = image_list[:max_number]
 
     logging.info("got image list, {} images".format(len(image_list)))
 
