@@ -7,7 +7,7 @@ import numpy as np
 from eval_kit.client import upload_eval_output, get_image_iter
 
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 ########################################################################################################
