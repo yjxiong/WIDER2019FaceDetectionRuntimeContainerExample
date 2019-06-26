@@ -20,18 +20,22 @@ from io import BytesIO
 # EVALUATION SYSTEM SETTINGS
 # Do not modify these file otherwise your evaluation will fail.
 
-IMAGE_LIST_LAMBDA = 'WIDERImageList'
-EVAL_LAMBDA = 'WIDEREval'
-UPLOAD_BUCKET = 'wider-runtime-eval-dev'
-UPLOAD_PREFIX = 'outputs'
-UPLOAD_JSON_NAME = 'wider_output.json'
+WORKSPACE_BUCKET = 'wider2019-eval-workspace'
+IMAGE_LIST_PATH = 'test-data/wider2019_face_detection_runtime_eval_image_list.txt'
+IMAGE_PREFIX = 'test-images/'
+UPLOAD_PREFIX = 'test-upload/'
 
-def _get_lambda_client():
-    lambda_client = boto3.client('lambda',
-                                 region_name='us-west-2',
-                                 endpoint_url='https://lambda.us-west-2.amazonaws.com')
-    return lambda_client
 
+def _get_s3_image_list(s3_bucket, s3_path):
+    s3_client = boto3.client('s3',
+                             region_name='us-west-2',
+                             endpoint_url='https://s3.us-west-2.amazonaws.com'
+                             )
+
+    f = BytesIO()
+    s3_client.download_fileobj(s3_bucket, s3_path, f)
+    lines = f.getvalue().decode('utf-8').split('\n')
+    return  [x.strip() for x in lines]
 
 def _download_s3_image(s3_bucket, s3_path):
     s3_client = boto3.client('s3',
@@ -43,21 +47,20 @@ def _download_s3_image(s3_bucket, s3_path):
     s3_client.download_fileobj(s3_bucket, s3_path, f)
     return  cv2.imdecode(np.frombuffer(f.getvalue(), dtype=np.uint8), 1)
 
-def _upload_output_to_s3(data, filename, s3_bucket, s3_path):
+def _upload_output_to_s3(data, filename, s3_bucket, s3_prefix):
     s3_client = boto3.client('s3',
                              region_name='us-west-2',
                              endpoint_url='https://s3.us-west-2.amazonaws.com'
                              )
-    json.dump(data, open(UPLOAD_JSON_NAME, 'w'))
-    with zipfile.ZipFile(filename, 'w') as zf:
-        zf.write(UPLOAD_JSON_NAME, compress_type=compression)
-
-    s3_client.upload_file(filename, s3_bucket, s3_path)
+    local_path = '/tmp/{}'.format(filename)
+    s3_path = os.path.join(s3_prefix, filename)
+    json.dump(data, open(local_path, 'w'))
+    s3_client.upload_file(local_path, s3_bucket, s3_path)
 
 
 def upload_eval_output(output_boxes, output_time, job_id):
     """
-    This function uploads the testing output to a Lambda function to evaluate face detection AP.
+    This function uploads the testing output to S3 to trigger evaluation.
     :param output_boxes:
     :param output_time:
     :return:
@@ -69,21 +72,10 @@ def upload_eval_output(output_boxes, output_time, job_id):
         } for k in output_boxes
     }
 
-    filename = '{}.zip'.format(job_id)
-    s3_path = os.path.join(UPLOAD_PREFIX, filename)
+    filename = '{}.json'.format(job_id)
 
-    _upload_output_to_s3(upload_data, filename, UPLOAD_BUCKET, s3_path)
+    _upload_output_to_s3(upload_data, filename, WORKSPACE_BUCKET, UPLOAD_PREFIX)
 
-    response = _get_lambda_client().invoke(
-        FunctionName=EVAL_LAMBDA,
-        InvocationType='RequestResponse',
-        Payload=json.dumps({
-            's3_bucket':UPLOAD_BUCKET,
-            's3_path': s3_path
-        }),
-    )
-
-    logging.info(response['Payload'].read().decode('utf-8'))
 
 def get_image_iter():
     """
@@ -93,20 +85,8 @@ def get_image_iter():
     the image will be in BGR color format with an array shape of (height, width, 3)
     :return: tuple(image_id, image)
     """
-    request_payload = {
-        "user_id": '123'
-    }
 
-    response_obj = _get_lambda_client().invoke(
-        FunctionName=IMAGE_LIST_LAMBDA,
-        InvocationType='RequestResponse',
-        Payload=json.dumps(request_payload),
-    )
-
-    response = json.loads(response_obj['Payload'].read().decode('utf-8'))
-    image_list = response['body']['s3_ids']
-    s3_bucket = response['body']['s3_bucket']
-    s3_prefix = response['body']['s3_prefix']
+    image_list = _get_s3_image_list(WORKSPACE_BUCKET, IMAGE_LIST_PATH)
 
     logging.info("got image list, {} images".format(len(image_list)))
 
@@ -115,7 +95,7 @@ def get_image_iter():
         # decode image and convert to numpy
 
         st = time.time()
-        image = _download_s3_image(s3_bucket, os.path.join(s3_prefix, image_id))
+        image = _download_s3_image(WORKSPACE_BUCKET, os.path.join(IMAGE_PREFIX, image_id))
         elapsed = time.time() - st
         logging.info("image down time: {}".format(elapsed))
         yield image_id, image

@@ -62,7 +62,7 @@ def evaluate_runtime(detector_class, image_iter, job_id):
         if eval_cnt % 100 == 0:
             logging.info("Finished {} images".format(eval_cnt))
 
-    logging.info("all image finished, sending to evaluation lambda function")
+    logging.info("all image finished, uploading evaluation outputs for evaluation.")
     # send evaluation output to the server
     upload_eval_output(output_boxes, output_time, job_id)
 
