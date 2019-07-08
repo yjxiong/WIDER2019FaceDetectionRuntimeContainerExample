@@ -35,7 +35,8 @@ def _get_s3_image_list(s3_bucket, s3_path):
     f = BytesIO()
     s3_client.download_fileobj(s3_bucket, s3_path, f)
     lines = f.getvalue().decode('utf-8').split('\n')
-    return  [x.strip() for x in lines]
+    return  [x.strip() for x in lines if x != '']
+
 
 def _download_s3_image(s3_bucket, s3_path):
     s3_client = boto3.client('s3',
@@ -80,6 +81,7 @@ def upload_eval_output(output_boxes, output_time, job_id):
 
     _upload_output_to_s3(upload_data, filename, WORKSPACE_BUCKET, UPLOAD_PREFIX)
 
+    logging.info("output uploaded to {}".format(filename))
 
 def get_image_iter(max_number=None):
     """
@@ -102,7 +104,11 @@ def get_image_iter(max_number=None):
         # decode image and convert to numpy
 
         st = time.time()
-        image = _download_s3_image(WORKSPACE_BUCKET, os.path.join(IMAGE_PREFIX, image_id))
+        try:
+            image = _download_s3_image(WORKSPACE_BUCKET, os.path.join(IMAGE_PREFIX, image_id))
+        except:
+            logging.info("Failed to download image: {}".format(os.path.join(IMAGE_PREFIX, image_id)))
+            raise
         elapsed = time.time() - st
         logging.info("image down time: {}".format(elapsed))
         yield image_id, image

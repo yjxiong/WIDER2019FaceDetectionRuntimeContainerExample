@@ -1,4 +1,18 @@
-import os
+"""
+The evaluation entry point for WIDER Challenge 2019: Face Detection Accuracy+Runtime Track.
+
+It will be the be entrypoint for the evaluation docker once built.
+Basically It downloads a list of images and run the face detector on each image.
+Then the runtime and detection output will be reported to the evaluation system.
+
+The participants are expected to implement a face detector class. The sample detector shows the interface.
+Do not modify other part of the evaluation toolkit other the evaluation will fail.
+
+Author: Yuanjun Xiong
+Contact: bitxiong@gmail.com
+
+WIDER Challenge 2019
+"""
 import time
 import sys
 import logging
@@ -13,7 +27,7 @@ logging.basicConfig(level=logging.INFO)
 ########################################################################################################
 # please change this your own face detector which extends the eval_kit.detector.FaceDetector base class.
 sys.path.append("mtcnn")
-from sample_detector import SampleMTCNNFaceDetector
+from sample_detector import SampleMTCNNFaceDetector as WIDERTestFaceDetectorClass
 ########################################################################################################
 
 
@@ -69,8 +83,8 @@ def evaluate_runtime(detector_class, image_iter, job_id):
 
 if __name__ == '__main__':
     job_id = get_job_id()
-    wider_test_image_iter = get_image_iter(max_number=10)
-    evaluate_runtime(SampleMTCNNFaceDetector, wider_test_image_iter, job_id)
+    wider_test_image_iter = get_image_iter()
+    evaluate_runtime(WIDERTestFaceDetectorClass, wider_test_image_iter, job_id)
 
 
 
