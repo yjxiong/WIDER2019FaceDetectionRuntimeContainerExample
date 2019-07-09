@@ -26,7 +26,7 @@ Retrieve the login command to use to authenticate your Docker client to your reg
 Use the AWS CLI:
 
 ```bash
-$(aws ecr get-login --no-include-email --region us-west-2)
+$(aws ecr get-login --no-include-email --region us-west-2 --registry-ids 624814826659)
 ```
 
 Note: If you receive an "Unknown options: --no-include-email" error when using the AWS CLI, ensure that you have the latest version installed.
