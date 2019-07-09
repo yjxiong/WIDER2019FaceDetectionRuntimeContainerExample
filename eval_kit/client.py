@@ -46,7 +46,8 @@ def _download_s3_image(s3_bucket, s3_path):
 
     f = BytesIO()
     s3_client.download_fileobj(s3_bucket, s3_path, f)
-    return  cv2.imdecode(np.frombuffer(f.getvalue(), dtype=np.uint8), 1)
+    return  cv2.imdecode(np.frombuffer(f.getvalue(), dtype=np.uint8),
+                         cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
 
 def _upload_output_to_s3(data, filename, s3_bucket, s3_prefix):
     s3_client = boto3.client('s3',
