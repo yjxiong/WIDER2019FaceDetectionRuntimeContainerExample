@@ -1,6 +1,10 @@
 # WIDER2019FaceDetectionRuntimeContainerExample
 This repo provides an example docker container for runtime evaluation for the WIDER 2019 challenge track: face detection accuracy and runtime.
 
+# BEFORE YOU START: Request Resource Provision
+
+First create an account on [challenge website](https://competitions.codalab.org/competitions/22955) as well an AWS account (in any region except Ningxia). Send your AWS account id (12 digits) and an address to the organizing commitee's email address: `wider-challenge@ie.cuhk.edu.hk`. We will allocate evaluation resources for you.
+
 # Obtain the the example
 
 Run the following commands to build the example image
