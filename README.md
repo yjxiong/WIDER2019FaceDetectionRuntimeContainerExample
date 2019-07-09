@@ -40,7 +40,7 @@ docker build -t wider-challenge-<your_aws_id> .
 After the build completes, tag your image so you can push the image to the repository:
 
 ```bash
-docker tag wider-challenge-624814826659:latest 624814826659.dkr.ecr.us-west-2.amazonaws.com/wider-challenge-<your_aws_id>:latest
+docker tag wider-challenge-<your_aws_id>:latest 624814826659.dkr.ecr.us-west-2.amazonaws.com/wider-challenge-<your_aws_id>:latest
 ```
 
 
