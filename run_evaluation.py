@@ -1,12 +1,12 @@
 """
 The evaluation entry point for WIDER Challenge 2019: Face Detection Accuracy+Runtime Track.
 
-It will be the be entrypoint for the evaluation docker once built.
+It will be the entrypoint for the evaluation docker once built.
 Basically It downloads a list of images and run the face detector on each image.
 Then the runtime and detection output will be reported to the evaluation system.
 
 The participants are expected to implement a face detector class. The sample detector shows the interface.
-Do not modify other part of the evaluation toolkit other the evaluation will fail.
+Do not modify other part of the evaluation toolkit otherwise the evaluation will fail.
 
 Author: Yuanjun Xiong
 Contact: bitxiong@gmail.com
