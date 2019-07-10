@@ -3,7 +3,7 @@ This repo provides an example docker container for runtime evaluation for the WI
 
 # BEFORE YOU START: Request Resource Provision
 
-First create an account on the [challenge website](https://competitions.codalab.org/competitions/22955) as well an [AWS account](https://aws.amazon.com/account/) (in any region except Beijing and Ningxia). Send your AWS account id (12 digits) and an address to the organizing commitee's email address: `wider-challenge@ie.cuhk.edu.hk`. We will allocate evaluation resources for you.
+First create an account on the [challenge website](https://competitions.codalab.org/competitions/22955) as well an [AWS account](https://aws.amazon.com/account/) (in any region except Beijing and Ningxia). Send your AWS account id (12 digits) and an email address to the organizing commitee's email address: `wider-challenge@ie.cuhk.edu.hk`. We will allocate evaluation resources for you.
 
 # Obtain the the example
 
