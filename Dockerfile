@@ -13,6 +13,8 @@ RUN git clone https://github.com/yjxiong/mtcnn
 
 ADD . /app/face_det_eval
 
-# This command runs the evaluation tool.
 ENV MXNET_CUDNN_AUTOTUNE_DEFAULT=0
+
+# This command runs the evaluation tool.
+# DO NOT MODIFY THE LINE BELOW OTHERWISE THE EVALUATION WILL NOT RUN
 CMD python3 run_evaluation.py
