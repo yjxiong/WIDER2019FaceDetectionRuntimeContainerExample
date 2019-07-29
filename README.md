@@ -1,7 +1,7 @@
 # WIDER2019FaceDetectionRuntimeContainerExample
 This repo provides an example docker container for runtime evaluation for the WIDER 2019 challenge track: face detection accuracy and runtime.
 
-**Note**: We highly recommend the participants to test their docker image before submission. Please refer to [create an anchor](#Test-the-docker-image-locally) for instructions.
+**Note**: We highly recommend the participants to test their docker image before submission. Please refer to [this section](#Test-the-docker-image-locally) for instructions.
 
 # BEFORE YOU START: Request Resource Provision
 
