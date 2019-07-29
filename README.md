@@ -35,6 +35,32 @@ nvidia-docker run -it wider-challenge-<your_aws_id> python3 local_test.py
 It will run the algorithms in the evaluation workflow on some sample images and print out the results.
 You can compare your algorithm's output with the groundtruth for the sample images. 
 
+The output will look like
+
+```
+    ================================================================================
+    all image finished, showing verification info below:
+    ================================================================================
+    
+INFO:root:Image ID: data/images/0--Parade/0_Parade_Parade_0_901.jpg, Runtime: 0.04310035705566406
+INFO:root:       gt box: [7, 399, 201, 342]
+INFO:root:       gt box: [283, 680, 164, 208]
+INFO:root:       gt box: [712, 351, 292, 374]
+INFO:root:       prediction box: [290.0172  685.2428  163.99304 210.28986   1.     ]
+INFO:root:       prediction box: [671.7536     314.9785     340.5346     427.6707       0.99999464]
+INFO:root:       prediction box: [ 16.449345  378.24097   279.26697   400.31653     0.9989442]
+INFO:root: 
+INFO:root:Image ID: data/images/7--Cheering/7_Cheering_Cheering_7_500.jpg, Runtime: 0.04457974433898926
+INFO:root:       gt box: [442, 140, 312, 456]
+INFO:root:       prediction box: [420.00894 144.01822 322.09244 405.97415   1.     ]
+INFO:root: 
+INFO:root:Image ID: data/images/0--Parade/0_Parade_Parade_0_829.jpg, Runtime: 0.11018848419189453
+INFO:root:       gt box: [501, 160, 285, 443]
+INFO:root:       prediction box: [496.86624 167.46695 334.38205 421.00534   1.     ]
+INFO:root: 
+INFO:root:Done. Average FPS: 15.162
+```
+
 # Submitting the docker image
 
 Run the following commands (we assume you have set up the [Docker CLI authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html#registry_auth))
