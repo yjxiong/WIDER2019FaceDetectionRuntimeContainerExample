@@ -1,6 +1,8 @@
 # WIDER2019FaceDetectionRuntimeContainerExample
 This repo provides an example docker container for runtime evaluation for the WIDER 2019 challenge track: face detection accuracy and runtime.
 
+**Note**: We highly recommend the participants to test their docker image before submission. Please refer to [create an anchor](#Test-the-docker-image-locally) for instructions.
+
 # BEFORE YOU START: Request Resource Provision
 
 First create an account on the [challenge website](https://competitions.codalab.org/competitions/22955) as well an [AWS account](https://aws.amazon.com/account/) (in any region except Beijing and Ningxia). Send your AWS account id (12 digits) and an email address to the organizing commitee's email address: `wider-challenge@ie.cuhk.edu.hk`. We will allocate evaluation resources for you.
@@ -24,14 +26,14 @@ docker build -t wider-challenge-<your_aws_id> .
 
 # Test the docker image locally
 
-The submission process could take hours. So we provide some tools for the participants to locally test the correctness of the algorithms.
+The submission process could take hours. It is slow to debug on the cloud. Here we provide some tools for the participants to locally test the correctness of the algorithms.
 
 To verify the algorithm can run properly, run the following command
 ```bash
 nvidia-docker run -it wider-challenge-<your_aws_id> python3 local_test.py
 ```
 It will run the algorithms in the evaluation workflow on some sample images and print out the results.
-You can compare your algorithm's output with the groundtruth on the sample images. 
+You can compare your algorithm's output with the groundtruth for the sample images. 
 
 # Submitting the docker image
 
