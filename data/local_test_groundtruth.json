@@ -1,0 +1,38 @@
+{
+    "data/images/0--Parade/0_Parade_Parade_0_901.jpg": [
+        [
+            7,
+            399,
+            201,
+            342
+        ],
+        [
+            283,
+            680,
+            164,
+            208
+        ],
+        [
+            712,
+            351,
+            292,
+            374
+        ]
+    ],
+    "data/images/0--Parade/0_Parade_Parade_0_829.jpg": [
+        [
+            501,
+            160,
+            285,
+            443
+        ]
+    ],
+    "data/images/7--Cheering/7_Cheering_Cheering_7_500.jpg": [
+        [
+            442,
+            140,
+            312,
+            456
+        ]
+    ]
+}

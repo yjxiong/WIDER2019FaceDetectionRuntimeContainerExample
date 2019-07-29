@@ -15,7 +15,7 @@ class FaceDetectorBase(ABC):
         Process one image, the evaluation toolkit will measure the runtime of every call to this method.
         The time cost will include any thing that's between the image input to the final bounding box output.
         The image will be given as a numpy array in the shape of (H, W, C) with dtype np.uint8.
-        The color mode of the image will be BGR.
+        The color mode of the image will be **BGR**.
         :param image: a numpy array with dtype=np.uint8 representing a image of (H, W, C) shape.
         :return: a numpy array of bounding boxes in the following format
             [

@@ -3,7 +3,7 @@
 
 FROM mxnet/python:1.4.1_gpu_cu90_py3
 
-RUN pip3 install easydict boto3 opencv-python
+RUN pip3 install easydict boto3 opencv-python pillow
 
 RUN apt update
 RUN apt-get install -y -q libfontconfig1 libxrender1 libglib2.0-0 libsm6 libxext6 ucspi-tcp git

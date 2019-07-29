@@ -114,3 +114,62 @@ def get_image_iter(max_number=None):
         logging.info("image down time: {}".format(elapsed))
         yield image_id, image
 
+
+def get_local_image_iter(max_number=None):
+    """
+    This function returns a iterator of input images for the detector.
+    It is used for local test of participating algorithms
+    Each iteration provides a tuple of
+    (image_id: str, image: numpy.ndarray)
+    the image will be in BGR color format with an array shape of (height, width, 3)
+    :return: tuple(image_id, image)
+    """
+    image_list = [x.strip() for x in open('data/local_test_image_list.txt')]
+
+    if max_number is not None:
+        image_list = image_list[:max_number]
+
+    logging.info("got local image list, {} images".format(len(image_list)))
+
+    for image_name in image_list:
+        # get image from local fs
+        # decode image and convert to numpy
+
+        st = time.time()
+        try:
+            image = cv2.imread(image_name,
+                         cv2.IMREAD_IGNORE_ORIENTATION | cv2.IMREAD_COLOR)
+        except:
+            logging.info("Failed to read image: {}".format(image_name))
+            raise
+        elapsed = time.time() - st
+        logging.info("image down time: {}".format(elapsed))
+        yield image_name, image
+
+
+def verify_local_output(output_boxes, output_time):
+
+    gt = json.load(open('data/local_test_groundtruth.json'))
+
+    # print the groundtruth and prediction for the participant to verify
+    all_time = 0
+    for k in gt:
+
+        assert k in output_boxes and k in output_time, ValueError("The detector does work on image {}".format(k))
+        image_boxes = output_boxes[k]
+        image_time = output_time[k]
+
+        all_time += image_time
+
+        logging.info("Image ID: {}, Runtime: {}".format(k, image_time))
+        for gt_box in gt[k]:
+            logging.info("\t gt box: {}".format(gt_box))
+        for pred_box in image_boxes:
+            logging.info("\t prediction box: {}".format(pred_box))
+
+        logging.info(" ")
+
+    average_fps = len(gt) / all_time
+    logging.info("Done. Average FPS: {:.03f}".format(average_fps))
+
+

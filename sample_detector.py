@@ -27,7 +27,12 @@ class SampleMTCNNFaceDetector(FaceDetectorBase):
 
     def __init__(self):
         """
+        This is an example face detector used for runtime evaluation in WIDER Challenge 2019.
+        It takes one BGR image and output a numpy array of face boudning boxes in the format of
+        [left, top, width, height, confidence]
 
+        Your own face detector should also follow this interface and implement the FaceDetectorBase interface
+        Please find the detailed requirement of the face detector in FaceDetectorBase
         """
         super(SampleMTCNNFaceDetector, self).__init__()
         self.detectors = [None, None, None]
@@ -40,7 +45,7 @@ class SampleMTCNNFaceDetector(FaceDetectorBase):
         stride = 2
         thresh = [0.5, 0.5, 0.7]
 
-        # the evaluation environment provides one on NVIDIA P100 GPU
+        # the evaluation environment provides one NVIDIA P100 GPU
         ctx = mx.gpu(0)
 
         # load pnet model
@@ -65,6 +70,14 @@ class SampleMTCNNFaceDetector(FaceDetectorBase):
                                        stride=stride, threshold=thresh, slide_window=slide_window)
 
     def process_image(self, image):
+        """
+        :param image: a numpy.array representing one image with BGR colors
+        :return: numpy.array of detection results in the format of
+            [
+                [left, top, width, height, confidence],
+                ...
+            ], dtype=np.float32
+        """
 
         boxes, boxes_c = self.mtcnn_detector.detect_pnet(image)
         if boxes_c is None:

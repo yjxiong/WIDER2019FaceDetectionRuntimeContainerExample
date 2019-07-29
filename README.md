@@ -13,7 +13,7 @@ Run the following commands to build the example image
 
 git clone https://github.com/yjxiong/WIDER2019FaceDetectionRuntimeContainerExample
 cd WIDER2019FaceDetectionRuntimeContainerExample
-docker build -t wider-eval-example .
+docker build -t wider-challenge-<your_aws_id> .
 ```
 
 # Include your own algorithm
@@ -21,6 +21,17 @@ docker build -t wider-eval-example .
 - You algorithm should provide a Python class which implements the interfaces `FaceDetectorBase` in `eval_kit/detection.py`.
 - Modify line 27 - 29 in `run_evalution.py` to import your own detector for evaluation.
 - Build and submit the image to the ECR repo for your AWS account.
+
+# Test the docker image locally
+
+The submission process could take hours. So we provide some tools for the participants to locally test the correctness of the algorithms.
+
+To verify the algorithm can run properly, run the following command
+```bash
+nvidia-docker run -it wider-challenge-<your_aws_id> python3 local_test.py
+```
+It will run the algorithms in the evaluation workflow on some sample images and print out the results.
+You can compare your algorithm's output with the groundtruth on the sample images. 
 
 # Submitting the docker image
 
