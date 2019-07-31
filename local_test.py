@@ -8,7 +8,7 @@ It runs your face detection algorithm on several local images and verify whether
 It also prints out the runtime for the algorithms for your references.
 
 
-The participants are expected to implement a face detector class. The sample detector shows the interface.
+The participants are expected to implement a face detector class. The sample detector illustrates the interface.
 Do not modify other part of the evaluation toolkit otherwise the evaluation will fail.
 
 Author: Yuanjun Xiong
@@ -27,7 +27,7 @@ from eval_kit.client import get_local_image_iter, verify_local_output
 logging.basicConfig(level=logging.INFO)
 
 ########################################################################################################
-# please change this your own face detector which extends the eval_kit.detector.FaceDetector base class.
+# please change these lines to include your own face detector extending the eval_kit.detector.FaceDetector base class.
 sys.path.append("mtcnn")
 from sample_detector import SampleMTCNNFaceDetector as WIDERTestFaceDetectorClass
 ########################################################################################################
