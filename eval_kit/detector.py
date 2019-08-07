@@ -22,7 +22,6 @@ class FaceDetectorBase(ABC):
                 [left, top, width, height, confidence],
                 ...
             ], dtype=np.float32
-            The bounding box locations should be relative to the image sizes, i.e in [0, 1]
-
+            The bounding box locations should be in absolute pixel coordinates.
         """
         pass
